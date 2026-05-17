@@ -9,4 +9,6 @@ interface AccountServiceInterface
     public function deleteAccount($id): bool;
     public function sendEmail($id):void;
     public function takeSmsCharge($id):void;
+    public function deposit(int $id, float $amount): bool; 
+    public function withdraw(int $id, float $amount): bool;
 }
