@@ -68,5 +68,45 @@ class AccountService implements AccountServiceInterface
         }
         $account->save();
     }
-   }
+    }
+
+    public function deposit(int $id, float $amount): bool
+{
+    $account = Account::find($id);
+    if (!$account) {
+        return false;
+    }
+    if ($account->account_type === 'current') {
+        $account->current_account_balance += $amount;
+    } else {
+        $account->savings_account_balance += $amount;
+    }
+    return $account->save();
+}
+
+public function withdraw(int $id, float $amount): bool
+{
+    $account = Account::find($id);
+    if (!$account) {
+        return false;
+    }
+    if ($account->account_type === 'current') {
+        if ($account->current_account_balance < $amount) {
+            return false; // insufficient balance
+        }
+        $account->current_account_balance = $amount;
+    } else {
+        if ($account->savings_account_balance < $amount) {
+            return false; // insufficient balance
+        }
+        $account->savings_account_balance -= $amount;
+    }
+    return $account->save();
+}
+public function getAllAccounts(): array
+{
+    return Account::all()->toArray();
+}
+   
+ 
 }

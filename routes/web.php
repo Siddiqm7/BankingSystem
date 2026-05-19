@@ -9,7 +9,5 @@ Route::get('/', function () {
 });
 
 
-
-
 Route::resource('accounts', AccountController::class);
 Route::post('accounts/{id}/renew', [AccountController::class, 'renew'])->name('accounts.renew');

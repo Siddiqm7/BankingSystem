@@ -14,13 +14,13 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = $this->accountService->getAllAccounts();
-        return view('account.index', compact('accounts'));
+        return view('accounts.index', compact('accounts'));
     }
 
     public function show($id)
     {
         $account = $this->accountService->getAccountById($id);
-        return view('account.show', compact('account'));
+        return view('accounts.show', compact('account'));
     }
 
     public function store(Request $request)
