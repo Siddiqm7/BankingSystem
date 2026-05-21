@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class Account extends Model
 {
@@ -25,7 +26,26 @@ class Account extends Model
         'address',
         'phone',
         'email',
-    ]; 
+    ];
+
+    protected static function booted(): void
+    {
+        static::created(function ($account) {
+            Log::info('New account created', [
+                'account_id' => $account->id,
+                'name' => $account->name,
+                'type' => $account->account_type,
+            ]);
+        });
+
+        static::deleted(function ($account) {
+            Log::info('Account deleted', [
+                'account_id' => $account->id,
+                'name' => $account->name,
+            ]);
+        });
+    }
+
     #[Scope]
     protected function active(Builder $query): void
     {
